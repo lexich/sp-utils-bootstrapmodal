@@ -85,12 +85,12 @@ Holder = function(Backbone, _, common, MixinBackbone) {
       return this.$modalEl.off("hidden.bs.modal");
     }
   });
-  BootstrapModal.version = '0.0.1';
+  BootstrapModal.version = '0.0.2';
   return BootstrapModal;
 };
 
 if ((typeof define === 'function') && (typeof define.amd === 'object') && define.amd) {
-  define(["backbone", "underscore", 'backbone-mixin', "common", 'backbone.epoxy', "bootstrap"], function(Backbone, _, MixinBackbone, common) {
+  define(["backbone", "underscore", 'backbone-mixin', "common", 'epoxy', "bootstrap"], function(Backbone, _, MixinBackbone, common) {
     return Holder(Backbone, _, MixinBackbone, common);
   });
 } else {

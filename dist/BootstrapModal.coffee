@@ -54,7 +54,7 @@ Holder =(Backbone, _, common, MixinBackbone)->
     _unbindModal:->
       @$modalEl.off "hidden.bs.modal"
 
-  BootstrapModal.version = '0.0.1'
+  BootstrapModal.version = '0.0.2'
   BootstrapModal
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
@@ -63,7 +63,7 @@ if (typeof define is 'function') and (typeof define.amd is 'object') and define.
     "underscore",
     'backbone-mixin',
     "common",
-    'backbone.epoxy',
+    'epoxy',
     "bootstrap"
   ], (Backbone,_, MixinBackbone, common)->
     Holder(Backbone,_, MixinBackbone, common)
