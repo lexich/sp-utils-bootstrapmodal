@@ -54,7 +54,7 @@ Holder =(Backbone, _, MixinBackbone, common)->
     _unbindModal:->
       @$modalEl.off "hidden.bs.modal"
 
-  BootstrapModal.version = '0.0.3'
+  BootstrapModal.version = '0.0.4'
   BootstrapModal
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd

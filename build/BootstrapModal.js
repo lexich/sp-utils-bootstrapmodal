@@ -86,7 +86,7 @@
         return this.$modalEl.off("hidden.bs.modal");
       }
     });
-    BootstrapModal.version = '0.0.3';
+    BootstrapModal.version = '0.0.4';
     return BootstrapModal;
   };
 
