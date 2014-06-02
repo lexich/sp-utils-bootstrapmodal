@@ -1,4 +1,4 @@
-Holder =(Backbone, _, common, MixinBackbone)->
+Holder =(Backbone, _, MixinBackbone, common)->
   SuperClass = MixinBackbone(Backbone.Epoxy.View)
   $ = Backbone.$
 

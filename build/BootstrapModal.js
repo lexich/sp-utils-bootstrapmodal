@@ -1,6 +1,6 @@
 var Holder;
 
-Holder = function(Backbone, _, common, MixinBackbone) {
+Holder = function(Backbone, _, MixinBackbone, common) {
   var $, BootstrapModal, SuperClass;
   SuperClass = MixinBackbone(Backbone.Epoxy.View);
   $ = Backbone.$;
