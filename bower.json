@@ -1,0 +1,30 @@
+{
+  "name": "sp-utils-bootstrapmodal",
+  "version": "0.0.1",
+  "authors": [
+    "lexich121@gmail.com"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/lexich/sp-utils-bootstrapmodal",
+  "description": "BootstrapModal",
+  "main": "build/BootstrapModal.js",
+  "keywords": [
+    "sp-utils"
+  ],
+  "private": true,
+  "moduleType": [
+    "amd"
+  ],
+  "dependencies": {
+    "backbone.epoxy": ">=1.0.0",
+    "backbone": ">=1.0.0",
+    "bootstrap-sass": ">=3.0.0"
+  }
+}
