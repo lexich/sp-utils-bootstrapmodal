@@ -6,7 +6,23 @@
     SuperClass = MixinBackbone(Backbone.Epoxy.View);
     $ = Backbone.$;
     BootstrapModal = SuperClass.extend({
-      initialize: function() {
+      modal_keyboard: false,
+      modal_backdrop: true,
+      autoremove: true,
+      initialize: function(options) {
+        options || (options = {});
+        this.autoremove = options.autoremove || this.autoremove;
+        this.modal_backdrop = options.modal_backdrop || this.modal_backdrop;
+        this.modal_keyboard = options.modal_keyboard || this.modal_keyboard;
+        this.on("onClose", (function(_this) {
+          return function() {
+            return setTimeout((function() {
+              if (_this.autoremove) {
+                return _this.remove();
+              }
+            }), 10);
+          };
+        })(this));
         this.async = $.Deferred();
         this.async.promise().always((function(_this) {
           return function() {
@@ -32,7 +48,11 @@
             return typeof callback === "function" ? callback() : void 0;
           };
         })(this));
-        return this.$modalEl.modal("show");
+        return this.$modalEl.modal({
+          backdrop: this.modal_backdrop,
+          show: true,
+          keyboard: this.modal_keyboard
+        });
       },
       closeAnimation: function(callback) {
         if (this.isShown === false) {
@@ -73,6 +93,9 @@
         })(this));
         return this.async.promise();
       },
+      setAutoremove: function(autoremove) {
+        this.autoremove = autoremove != null ? autoremove : true;
+      },
       _bindModal: function() {
         this._unbindModal();
         return this.$modalEl.on("hidden.bs.modal", (function(_this) {
@@ -86,7 +109,7 @@
         return this.$modalEl.off("hidden.bs.modal");
       }
     });
-    BootstrapModal.version = '0.0.4';
+    BootstrapModal.version = '0.0.5';
     return BootstrapModal;
   };
 

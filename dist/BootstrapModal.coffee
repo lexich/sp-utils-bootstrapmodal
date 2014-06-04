@@ -3,7 +3,19 @@ Holder =(Backbone, _, MixinBackbone, common)->
   $ = Backbone.$
 
   BootstrapModal = SuperClass.extend
-    initialize:->
+    modal_keyboard:false
+    modal_backdrop:true
+    autoremove: true
+
+    initialize:(options)->
+      options or (options = {})
+      @autoremove = options.autoremove or @autoremove
+      @modal_backdrop = options.modal_backdrop or @modal_backdrop
+      @modal_keyboard = options.modal_keyboard or @modal_keyboard
+
+      @on "onClose",=> setTimeout (=>
+        @remove() if @autoremove
+      ),10
       @async = $.Deferred()
       @async.promise().always => @remove()
 
@@ -21,7 +33,11 @@ Holder =(Backbone, _, MixinBackbone, common)->
       @$modalEl.one "shown.bs.modal", =>
         @isShown = true
         callback?()
-      @$modalEl.modal "show"
+      @$modalEl.modal {
+        backdrop:@modal_backdrop
+        show:true
+        keyboard:@modal_keyboard
+      }
 
     closeAnimation:(callback)->
       return callback?() if @isShown is false
@@ -45,6 +61,8 @@ Holder =(Backbone, _, MixinBackbone, common)->
         @async.reject err
       @async.promise()
 
+    setAutoremove:(@autoremove=true)->
+
     _bindModal:->
       @_unbindModal()
       @$modalEl.on "hidden.bs.modal", =>
@@ -54,7 +72,7 @@ Holder =(Backbone, _, MixinBackbone, common)->
     _unbindModal:->
       @$modalEl.off "hidden.bs.modal"
 
-  BootstrapModal.version = '0.0.4'
+  BootstrapModal.version = '0.0.5'
   BootstrapModal
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
