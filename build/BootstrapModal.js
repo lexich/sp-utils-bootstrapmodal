@@ -9,29 +9,35 @@
       modal_keyboard: false,
       modal_backdrop: true,
       autoremove: true,
-      initialize: function(options) {
-        options || (options = {});
-        this.autoremove = options.autoremove || this.autoremove;
-        this.modal_backdrop = options.modal_backdrop || this.modal_backdrop;
-        this.modal_keyboard = options.modal_keyboard || this.modal_keyboard;
-        this.on("onClose", (function(_this) {
-          return function() {
-            return setTimeout((function() {
-              if (_this.autoremove) {
-                return _this.remove();
-              }
-            }), 10);
-          };
-        })(this));
-        this.async = $.Deferred();
-        this.async.promise().always((function(_this) {
-          return function() {
-            return _this.remove();
-          };
-        })(this));
-        this.$modalEl = this.$el.find(".modal");
-        this.isShown = false;
-        return this._bindModal();
+      constructor: function() {
+        var initialize;
+        initialize = this.initialize;
+        this.initialize = function(options) {
+          options || (options = {});
+          this.autoremove = options.autoremove || this.autoremove;
+          this.modal_backdrop = options.modal_backdrop || this.modal_backdrop;
+          this.modal_keyboard = options.modal_keyboard || this.modal_keyboard;
+          this.on("onClose", (function(_this) {
+            return function() {
+              return setTimeout((function() {
+                if (_this.autoremove) {
+                  return _this.remove();
+                }
+              }), 10);
+            };
+          })(this));
+          this.async = $.Deferred();
+          this.async.promise().always((function(_this) {
+            return function() {
+              return _this.remove();
+            };
+          })(this));
+          this.$modalEl = this.$el.find(".modal");
+          this.isShown = false;
+          this._bindModal();
+          return initialize != null ? initialize.apply(this, arguments) : void 0;
+        };
+        return SuperClass.prototype.constructor.apply(this, arguments);
       },
       remove: function() {
         this._unbindModal();
@@ -109,7 +115,7 @@
         return this.$modalEl.off("hidden.bs.modal");
       }
     });
-    BootstrapModal.version = '0.0.5';
+    BootstrapModal.version = '0.0.6';
     return BootstrapModal;
   };
 

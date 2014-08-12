@@ -7,25 +7,32 @@ Holder =(Backbone, _, MixinBackbone, common)->
     modal_backdrop:true
     autoremove: true
 
-    initialize:(options)->
-      options or (options = {})
-      @autoremove = options.autoremove or @autoremove
-      @modal_backdrop = options.modal_backdrop or @modal_backdrop
-      @modal_keyboard = options.modal_keyboard or @modal_keyboard
+    constructor:->
+      initialize = @initialize
+      @initialize = (options)->
+        options or (options = {})
+        @autoremove = options.autoremove or @autoremove
+        @modal_backdrop = options.modal_backdrop or @modal_backdrop
+        @modal_keyboard = options.modal_keyboard or @modal_keyboard
 
-      @on "onClose",=> setTimeout (=>
-        @remove() if @autoremove
-      ),10
-      @async = $.Deferred()
-      @async.promise().always => @remove()
+        @on "onClose",=> setTimeout (=>
+          @remove() if @autoremove
+        ),10
+        @async = $.Deferred()
+        @async.promise().always => @remove()
 
-      @$modalEl = @$el.find(".modal")
-      @isShown = false
-      @_bindModal()
+        @$modalEl = @$el.find(".modal")
+        @isShown = false
+        @_bindModal()
+        initialize?.apply this, arguments
 
-    remove:->
-      @_unbindModal()
-      SuperClass::remove.apply this, arguments
+      remove = @remove
+      @remove = ->
+        @_unbindModal()
+        SuperClass::remove.apply this, arguments
+        remove?.apply this, arguments
+
+      SuperClass::constructor.apply this, arguments
 
     showAnimation:(callback)->
       return callback?() if @isShown is true
@@ -72,7 +79,7 @@ Holder =(Backbone, _, MixinBackbone, common)->
     _unbindModal:->
       @$modalEl.off "hidden.bs.modal"
 
-  BootstrapModal.version = '0.0.5'
+  BootstrapModal.version = '0.0.6'
   BootstrapModal
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
