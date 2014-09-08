@@ -10,7 +10,7 @@
       modal_backdrop: true,
       autoremove: true,
       constructor: function() {
-        var initialize;
+        var initialize, remove, removeFlag;
         initialize = this.initialize;
         this.initialize = function(options) {
           options || (options = {});
@@ -37,11 +37,18 @@
           this._bindModal();
           return initialize != null ? initialize.apply(this, arguments) : void 0;
         };
+        remove = this.remove;
+        removeFlag = false;
+        this.remove = function() {
+          if (removeFlag) {
+            return;
+          }
+          removeFlag = true;
+          this._unbindModal();
+          SuperClass.prototype.remove.apply(this, arguments);
+          return remove != null ? remove.apply(this, arguments) : void 0;
+        };
         return SuperClass.prototype.constructor.apply(this, arguments);
-      },
-      remove: function() {
-        this._unbindModal();
-        return SuperClass.prototype.remove.apply(this, arguments);
       },
       showAnimation: function(callback) {
         if (this.isShown === true) {
@@ -115,7 +122,7 @@
         return this.$modalEl.off("hidden.bs.modal");
       }
     });
-    BootstrapModal.version = '0.0.6';
+    BootstrapModal.version = '0.0.7';
     return BootstrapModal;
   };
 

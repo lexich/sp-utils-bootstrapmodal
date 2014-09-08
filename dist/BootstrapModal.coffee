@@ -27,7 +27,11 @@ Holder =(Backbone, _, MixinBackbone, common)->
         initialize?.apply this, arguments
 
       remove = @remove
+      #prevent double remove call
+      removeFlag = false
       @remove = ->
+        return if removeFlag
+        removeFlag = true
         @_unbindModal()
         SuperClass::remove.apply this, arguments
         remove?.apply this, arguments
@@ -79,7 +83,7 @@ Holder =(Backbone, _, MixinBackbone, common)->
     _unbindModal:->
       @$modalEl.off "hidden.bs.modal"
 
-  BootstrapModal.version = '0.0.6'
+  BootstrapModal.version = '0.0.7'
   BootstrapModal
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
