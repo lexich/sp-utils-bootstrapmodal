@@ -1,5 +1,6 @@
 (function() {
-  var Holder;
+  var Holder,
+    __slice = [].slice;
 
   Holder = function(Backbone, _, MixinBackbone, common) {
     var $, BootstrapModal, SuperClass;
@@ -23,7 +24,7 @@
                 if (_this.autoremove) {
                   return _this.remove();
                 }
-              }), 10);
+              }), 0);
             };
           })(this));
           this.async = $.Deferred();
@@ -84,6 +85,20 @@
         common.app.modal.show(this);
         return this.async.promise();
       },
+      showChainModal: function() {
+        var ViewModal, autoremove, options, params, view;
+        ViewModal = arguments[0], options = arguments[1], params = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
+        autoremove = this.autoremove;
+        this.setAutoremove(false);
+        this.closeCurrent();
+        view = new ViewModal(options);
+        return view.showModal.apply(view, params).always((function(_this) {
+          return function() {
+            _this.setAutoremove(autoremove);
+            return _this.showCurrent();
+          };
+        })(this));
+      },
       ok: function(data) {
         if (data == null) {
           data = {};
@@ -122,7 +137,7 @@
         return this.$modalEl.off("hidden.bs.modal");
       }
     });
-    BootstrapModal.version = '0.0.7';
+    BootstrapModal.version = '0.0.8';
     return BootstrapModal;
   };
 
