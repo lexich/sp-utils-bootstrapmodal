@@ -3,9 +3,10 @@
     __slice = [].slice;
 
   Holder = function(Backbone, _, MixinBackbone, common) {
-    var $, BootstrapModal, SuperClass;
+    var $, $body, BootstrapModal, SuperClass;
     SuperClass = MixinBackbone(Backbone.Epoxy.View);
     $ = Backbone.$;
+    $body = $("body");
     BootstrapModal = SuperClass.extend({
       modal_keyboard: false,
       modal_backdrop: true,
@@ -18,7 +19,14 @@
           this.autoremove = options.autoremove || this.autoremove;
           this.modal_backdrop = options.modal_backdrop || this.modal_backdrop;
           this.modal_keyboard = options.modal_keyboard || this.modal_keyboard;
-          this.on("onClose", (function(_this) {
+          this.$modalEl = this.$el.find(".modal");
+          this.$modalEl.attr({
+            "tabindex": "-1"
+          });
+          this.listenTo(this, "onShow", function() {
+            return $body.addClass("modal-open");
+          });
+          this.listenTo(this, "onClose", (function(_this) {
             return function() {
               return setTimeout((function() {
                 if (_this.autoremove) {
@@ -33,7 +41,6 @@
               return _this.remove();
             };
           })(this));
-          this.$modalEl = this.$el.find(".modal");
           this.isShown = false;
           this._bindModal();
           return initialize != null ? initialize.apply(this, arguments) : void 0;
@@ -137,7 +144,7 @@
         return this.$modalEl.off("hidden.bs.modal");
       }
     });
-    BootstrapModal.version = '0.0.8';
+    BootstrapModal.version = '0.0.9';
     return BootstrapModal;
   };
 

@@ -1,7 +1,7 @@
 Holder =(Backbone, _, MixinBackbone, common)->
   SuperClass = MixinBackbone(Backbone.Epoxy.View)
   $ = Backbone.$
-
+  $body = $("body")
   BootstrapModal = SuperClass.extend
     modal_keyboard: false
     modal_backdrop: true
@@ -14,12 +14,13 @@ Holder =(Backbone, _, MixinBackbone, common)->
         @autoremove = options.autoremove or @autoremove
         @modal_backdrop = options.modal_backdrop or @modal_backdrop
         @modal_keyboard = options.modal_keyboard or @modal_keyboard
-
-        @on "onClose", => setTimeout (=> @remove() if @autoremove), 0
+        @$modalEl = @$el.find(".modal")
+        @$modalEl.attr "tabindex":"-1"
+        @listenTo this, "onShow", -> $body.addClass "modal-open"
+        @listenTo this, "onClose", => setTimeout (=> @remove() if @autoremove), 0
         @async = $.Deferred()
         @async.promise().always => @remove()
 
-        @$modalEl = @$el.find(".modal")
         @isShown = false
         @_bindModal()
         initialize?.apply this, arguments
@@ -89,7 +90,7 @@ Holder =(Backbone, _, MixinBackbone, common)->
     _unbindModal: ->
       @$modalEl.off "hidden.bs.modal"
 
-  BootstrapModal.version = '0.0.8'
+  BootstrapModal.version = '0.0.9'
   BootstrapModal
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
