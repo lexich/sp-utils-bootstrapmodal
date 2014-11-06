@@ -2,7 +2,7 @@
   var Holder,
     __slice = [].slice;
 
-  Holder = function(Backbone, _, MixinBackbone, common) {
+  Holder = function(Backbone, _, MixinBackbone) {
     var $, $body, BootstrapModal, SuperClass;
     SuperClass = MixinBackbone(Backbone.Epoxy.View);
     $ = Backbone.$;
@@ -11,6 +11,9 @@
       modal_keyboard: false,
       modal_backdrop: true,
       autoremove: true,
+      layoutManager: function() {
+        throw new Error("BootstrapModal::layoutManager need to implement");
+      },
       constructor: function() {
         var initialize, remove, removeFlag;
         initialize = this.initialize;
@@ -89,7 +92,7 @@
         return this.$modalEl.modal("hide");
       },
       showModal: function() {
-        common.app.modal.show(this);
+        this.layoutManager().show(this);
         return this.async.promise();
       },
       showChainModal: function() {
@@ -110,7 +113,7 @@
         if (data == null) {
           data = {};
         }
-        common.app.modal.close(this, (function(_this) {
+        this.layoutManager().close(this, (function(_this) {
           return function() {
             return _this.async.resolve(data);
           };
@@ -121,7 +124,7 @@
         if (err == null) {
           err = "error";
         }
-        common.app.modal.close(this, (function(_this) {
+        this.layoutManager().close(this, (function(_this) {
           return function() {
             return _this.async.reject(err);
           };
@@ -144,16 +147,16 @@
         return this.$modalEl.off("hidden.bs.modal");
       }
     });
-    BootstrapModal.version = '0.0.9';
+    BootstrapModal.version = '0.1.0';
     return BootstrapModal;
   };
 
   if ((typeof define === 'function') && (typeof define.amd === 'object') && define.amd) {
-    define(["backbone", "underscore", 'backbone-mixin', "common", 'epoxy', "bootstrap"], function(Backbone, _, MixinBackbone, common) {
-      return Holder(Backbone, _, MixinBackbone, common);
+    define(["backbone", "underscore", 'backbone-mixin', 'epoxy', "bootstrap"], function(Backbone, _, MixinBackbone) {
+      return Holder(Backbone, _, MixinBackbone);
     });
   } else {
-    window.BootstrapModal = Holder(Backbone, _, MixinBackbone, common);
+    window.BootstrapModal = Holder(Backbone, _, MixinBackbone);
   }
 
 }).call(this);

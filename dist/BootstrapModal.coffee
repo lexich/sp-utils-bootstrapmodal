@@ -1,4 +1,4 @@
-Holder =(Backbone, _, MixinBackbone, common)->
+Holder =(Backbone, _, MixinBackbone)->
   SuperClass = MixinBackbone(Backbone.Epoxy.View)
   $ = Backbone.$
   $body = $("body")
@@ -6,6 +6,9 @@ Holder =(Backbone, _, MixinBackbone, common)->
     modal_keyboard: false
     modal_backdrop: true
     autoremove: true
+
+    layoutManager: ->
+      throw new Error("BootstrapModal::layoutManager need to implement")
 
     constructor: ->
       initialize = @initialize
@@ -57,7 +60,7 @@ Holder =(Backbone, _, MixinBackbone, common)->
       @$modalEl.modal "hide"
 
     showModal: ->
-      common.app.modal.show this
+      @layoutManager().show this
       @async.promise()
 
     showChainModal: (ViewModal, options, params...)->
@@ -72,11 +75,11 @@ Holder =(Backbone, _, MixinBackbone, common)->
           @showCurrent()
 
     ok: (data={})->
-      common.app.modal.close this, => @async.resolve data
+      @layoutManager().close this, => @async.resolve data
       @async.promise()
 
     cancel: (err="error")->
-      common.app.modal.close this, => @async.reject err
+      @layoutManager().close this, => @async.reject err
       @async.promise()
 
     setAutoremove: (@autoremove=true)->
@@ -90,7 +93,7 @@ Holder =(Backbone, _, MixinBackbone, common)->
     _unbindModal: ->
       @$modalEl.off "hidden.bs.modal"
 
-  BootstrapModal.version = '0.0.9'
+  BootstrapModal.version = '0.1.0'
   BootstrapModal
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd
@@ -98,11 +101,9 @@ if (typeof define is 'function') and (typeof define.amd is 'object') and define.
     "backbone",
     "underscore",
     'backbone-mixin',
-    "common",
     'epoxy',
     "bootstrap"
-  ], (Backbone,_, MixinBackbone, common)->
-    Holder(Backbone,_, MixinBackbone, common)
+  ], (Backbone,_, MixinBackbone)->
+    Holder(Backbone,_, MixinBackbone)
 else
-  window.BootstrapModal = Holder(Backbone,_, MixinBackbone, common)
-
+  window.BootstrapModal = Holder(Backbone,_, MixinBackbone)
