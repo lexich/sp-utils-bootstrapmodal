@@ -66,13 +66,13 @@ Holder =(Backbone, _, MixinBackbone)->
     showChainModal: (ViewModal, options, params...)->
       autoremove = @autoremove
       @setAutoremove false
-      @closeCurrent()
+      @closeCurrent null, @layoutManager()
       view =  new ViewModal options
       view.showModal
         .apply(view, params)
         .always =>
           @setAutoremove autoremove
-          @showCurrent()
+          @showCurrent null, @layoutManager()
 
     ok: (data={})->
       @layoutManager().close this, => @async.resolve data
@@ -93,7 +93,7 @@ Holder =(Backbone, _, MixinBackbone)->
     _unbindModal: ->
       @$modalEl.off "hidden.bs.modal"
 
-  BootstrapModal.version = '0.1.0'
+  BootstrapModal.version = '0.1.1'
   BootstrapModal
 
 if (typeof define is 'function') and (typeof define.amd is 'object') and define.amd

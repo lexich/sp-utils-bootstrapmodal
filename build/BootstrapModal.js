@@ -100,12 +100,12 @@
         ViewModal = arguments[0], options = arguments[1], params = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
         autoremove = this.autoremove;
         this.setAutoremove(false);
-        this.closeCurrent();
+        this.closeCurrent(null, this.layoutManager());
         view = new ViewModal(options);
         return view.showModal.apply(view, params).always((function(_this) {
           return function() {
             _this.setAutoremove(autoremove);
-            return _this.showCurrent();
+            return _this.showCurrent(null, _this.layoutManager());
           };
         })(this));
       },
@@ -147,7 +147,7 @@
         return this.$modalEl.off("hidden.bs.modal");
       }
     });
-    BootstrapModal.version = '0.1.0';
+    BootstrapModal.version = '0.1.1';
     return BootstrapModal;
   };
 
